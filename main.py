@@ -16,7 +16,7 @@ def home():
 
 
 @app.route("/users/generate")
-def users():
+def users() -> str:
     query = request.args.get("query", default=100, type=int)
 
     all_users = []
