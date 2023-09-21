@@ -44,7 +44,7 @@ def mean() -> str:  # LibreOffice = 127.079_421_160_8; Python = 127.079_421_160_
 
 
 @app.route("/space")
-def space() -> int:
+def space() -> str:
     try:
         url = "http://api.open-notify.org/astros.json"
 
@@ -55,4 +55,4 @@ def space() -> int:
         return str(total_astronauts)
     except Exception as e:
         print(e)
-        return 0
+        return str(0)
