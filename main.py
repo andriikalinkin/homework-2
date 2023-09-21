@@ -1,15 +1,35 @@
 import csv
 
-from flask import Flask
+from flask import Flask, request, jsonify
+from markupsafe import escape
+from faker import Faker
 import requests
 
 
 app = Flask(__name__)
+fake = Faker()
 
 
 @app.route("/")
 def home():
     return "<h1>This is a home page of Homework_3</h1>"
+
+
+@app.route("/users/generate")
+def users():
+    query = request.args.get("query", default=100, type=int)
+
+    all_users = []
+
+    for _ in range(query):
+        first_name = fake.first_name()
+        last_name = fake.last_name()
+        email = f"{first_name.lower() + last_name.lower()}@example.com"
+
+        one_user = f"{first_name} {last_name} {email}"
+        all_users.append(one_user)
+
+    return "<br>".join(all_users)
 
 
 @app.route("/requirements")
@@ -56,3 +76,7 @@ def space() -> str:
     except Exception as e:
         print(e)
         return str(0)
+
+
+if __name__ == "__main__":
+    app.run()
