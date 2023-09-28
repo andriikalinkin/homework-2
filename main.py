@@ -1,9 +1,8 @@
 import csv
-
-from flask import Flask, request, jsonify
-from markupsafe import escape
-from faker import Faker
 import requests
+
+from flask import Flask, request
+from faker import Faker
 
 
 app = Flask(__name__)
@@ -12,7 +11,7 @@ fake = Faker()
 
 @app.route("/")
 def home():
-    return "<h1>This is a home page of Homework_3</h1>"
+    return "<h1>This is a home page of Homework-2</h1>"
 
 
 @app.route("/users/generate")
@@ -43,8 +42,9 @@ def requirements() -> str:
 
 
 @app.route("/mean")
-def mean() -> str:  # LibreOffice = 127.079_421_160_8; Python = 127.079_421_160_799_16;
-    total = 0
+def mean() -> str:
+    total_height_inches = 0
+    total_weight_pounds = 0
     count = 0
 
     with open("./hw.csv", mode="r") as file:
@@ -53,14 +53,17 @@ def mean() -> str:  # LibreOffice = 127.079_421_160_8; Python = 127.079_421_160_
 
         for row in reader:
             try:
-                total += float(row[2])
+                total_height_inches += float(row[1])
+                total_weight_pounds += float(row[2])
                 count += 1
             except IndexError:
                 pass
 
-    average = total / count
+    average_height_in_centimeters = total_height_inches / count * 2.54
+    average_height_in_kilograms = total_weight_pounds / count * 0.453592
 
-    return str(average)
+    return f"""Average height in centimeters: {average_height_in_centimeters}<br>
+            Average height in kilograms: {average_height_in_kilograms}"""
 
 
 @app.route("/space")
